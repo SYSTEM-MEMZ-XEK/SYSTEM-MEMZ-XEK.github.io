@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYSTEM-MEMZ-XEK的个人网站</title>
+    <link rel="icon" href="images/profile.jpg" type="image/x-icon"> <!-- 添加图标 -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: url('images/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            font-family: Arial, sans-serif;
+        }
+
+        nav {
+            background-color: rgba(255, 255, 255, 0.9);
+            position: fixed;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            padding: 15px 20px;
+            transition: background-color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(0, 123, 255, 0.2);
+        }
+
+        .homeContent {
+            text-align: center;
+            padding-top: 80px; /* 为了不被固定的导航条遮挡 */
+        }
+
+        .profilePic {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+
+        section {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 60px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .portfolioContent {
+            margin: 20px;
+        }
+
+        .project {
+            margin-bottom: 20px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .backToTop {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none; /* 初始隐藏 */
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .backToTop:hover {
+            background-color: #0056b3;
+        }
+
+        .aboutContent {
+            display: none;
+            margin-top: 20px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+            }
+
+            .project {
+                text-align: center;
+            }
+        }
+    </style>
+    <script>
+        // 平滑滚动到指定区域
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 切换作品集内容显示
+        function togglePortfolio() {
+            const portfolioContent = document.getElementById('portfolioContent');
+            if (portfolioContent.style.display === 'none' || portfolioContent.style.display === '') {
+                portfolioContent.style.display = 'block';
+            } else {
+                portfolioContent.style.display = 'none';
+            }
+        }
+
+        // 显示返回顶部按钮
+        window.onscroll = function () {
+            const backToTopButton = document.getElementById('backToTop');
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                backToTopButton.style.display = "block";
+            } else {
+                backToTopButton.style.display = "none";
+            }
+        };
+
+        // 返回顶部功能
+        function backToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+   
+    <nav id="mainNav">
+        <ul>
+            <li><a href="#home" class="navLink" onclick="scrollToSection('home')">首页</a></li>
+            <li><a href="#about" class="navLink" onclick="scrollToSection('about')">关于我</a></li>
+            <li><a href="#portfolio" class="navLink" onclick="scrollToSection('portfolio')">作品集</a></li>
+            <li><a href="#tools" class="navLink" onclick="scrollToSection('tools')">工具</a></li> <!-- 添加音乐菜单 -->
+            <li><a href="#contact" class="navLink" onclick="scrollToSection('contact')">联系方式</a></li>
+            <div id="clock" style="text-align: center; font-size: 20px; color: rgb(121, 114, 114); margin-top: 1px;">00:00:00</div>
+        </ul>
+    </nav>
+
+    <!-- 首页部分 -->
+    <section id="home">
+        <div class="homeContent">
+            <h1>欢迎来到我的个人网站</h1>
+            <p>在这里你可以了解更多关于我、我的技能以及我的工作内容。</p>
+            <img src="images/profile.jpg" alt="我的头像" class="profilePic">
+
+            <!-- 关于我部分内容 -->
+            <h2>关于我</h2>
+            <p>我的名字是SYSTEM-MEMZ-XEK,我是一位高中生，目前就读于炳辉中学。我热爱编程与计算机，喜欢研究新技术，学习新知识。我希望通过我的技能和经验为更多的人提供帮助。</p>
+        </div>
+    </section>
+
+    <!-- 作品集部分 -->
+    <section id="portfolio">
+        <h2 style="text-align: center;">作品集</h2> <!-- 文字居中 -->
+        <button class="button" style="display: block; margin: 0 auto;" onclick="togglePortfolio()">展开/收起</button> <!-- 居中按钮 -->
+        <div id="portfolioContent" class="portfolioContent" style="display: none;"> <!-- 初始隐藏 -->
+            <p>这里是我的一些在哔哩哔哩制作的视频：</p>
+            <div class="project">
+                <img src="images/project1.jpg" alt="项目1图片" class="projectImage" style="display: block; margin: 0 auto;">
+                <h3>
+                    <a href="https://www.bilibili.com/video/BV1V8411o7bt/?spm_id_from=333.999.0.0" target="_blank" class="button">Windows11安装程序2.0</a>
+                </h3>
+                <p>这是我用易语言制作的病毒，它参考了Windows11的安装程序，让我学会了一些易语言的语法。</p>
+            </div>
+            <div class="project">
+                <img src="images/project2.jpg" alt="项目2图片" class="projectImage" style="display: block; margin: 0 auto;">
+                <h3>
+                    <a href="https://www.bilibili.com/video/BV1oDaYefEbx/?spm_id_from=333.999.0.0" target="_blank" class="button">请选择你的杀毒软件</a>
+                </h3>
+                <p>基于F1meme网络热梗，制作的关于杀毒软件的视频，展示了一些杀毒软件。</p>
+            </div>
+            <div class="project">
+                <img src="images/project3.jpg" alt="项目3图片" class="projectImage" style="display: block; margin: 0 auto;">
+                <h3>
+                    <a href="https://www.bilibili.com/video/BV1NG411m7Ji/?share_source=copy_web&vd_source=d6611fc959a68d160b7e301089f70861" target="_blank" class="button">《Microsoft Edge 11.45.14》</a>
+                </h3>
+                <p>用易语言写的程序本体，使用Microsoft Visual Studio 2022的一个插件，把它和Microsoft Edge源文件在一起，制作成了一个安装包，运行时会有大量广告，运行卸载程序时会删除C盘文件。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 工具部分 -->
+    <section id="tools">
+        <h2>工具</h2>
+        <div class="contactContent" style="display: flex; flex-direction: column; align-items: center;">
+        <p>这里是我的工具，你可以点击按钮来使用。</p>
+        <button class="button" onclick="window.location.href='Tools/Photoshop编辑器/index.html'">Photoshop编辑器</button>
+        <button class="button" onclick="window.location.href='Tools/index.html'">在线奖状生成器</button>
+        <button class="button" onclick="window.location.href='Tools/404/index.html'">在线XX工具</button>
+    </section>
+<!-- 联系方式部分 -->
+    <section id="contact">
+        <h2>联系方式</h2>
+        <div class="contactContent" style="display: flex; flex-direction: column; align-items: center;">
+            <p>你可以通过以下方式联系我：</p>
+            <ul style="display: flex; list-style-type: none; padding: 0; margin: 0; justify-content: center;">
+                <li style="margin-right: 20px;">
+                    <a href="mailto:XEK20090428@163.com" class="button">发送邮件：XEK20090428@163.com</a>
+                </li>
+                <li style="margin-right: 20px;">
+                    <button class="button" onclick="window.location.href='https://wpa.qq.com/msgrd?v=3&uin=1635075096&site=qq&menu=yes'">QQ: 1635075096</button>
+                </li>
+                <li>
+                    <a href="https://space.bilibili.com/3493115711196019" target="_blank" class="button">访问哔哩哔哩主页</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="backToTop" onclick="backToTop()">返回顶部</button>
+    <script>
+        // 时钟更新代码
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock(); // 初始调用以立即显示时间
+    </script>
+</body>
+
+</html>
