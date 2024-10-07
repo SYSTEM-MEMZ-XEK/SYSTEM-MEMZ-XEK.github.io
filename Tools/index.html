@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>奖状生成器</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    .card {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #f5f5f5;
+      border-radius: 5px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h1 {
+      margin-bottom: 30px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .result-image {
+      margin-top: 30px;
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+  <script>
+    function generateCertificate() {
+      var name = document.getElementById("name").value;
+      var title = document.getElementById("title").value;
+      var classname = document.getElementById("classname").value;
+
+      var apiUrl = "https://api.pearktrue.cn/api/certcommend/?name=" + encodeURIComponent(name) + "&title=" + encodeURIComponent(title) + "&classname=" + encodeURIComponent(classname);
+
+      var image = new Image();
+      image.src = apiUrl;
+      image.className = "result-image";
+      document.getElementById("result").innerHTML = "";
+      document.getElementById("result").appendChild(image);
+    }
+  </script>
+</head>
+<body>
+  <div class="card">
+    <h1>奖状生成器</h1>
+    <div class="form-group">
+      <label for="name">获奖人：</label>
+      <input type="text" id="name" placeholder="请输入获奖人姓名">
+    </div>
+    <div class="form-group">
+      <label for="title">奖项名：</label>
+      <input type="text" id="title" placeholder="请输入奖项名称">
+    </div>
+    <div class="form-group">
+      <label for="classname">班级名：</label>
+      <input type="text" id="classname" placeholder="请输入班级名称">
+    </div>
+    <button onclick="generateCertificate()">生成奖状</button>
+    <div id="result"></div>
+  </div>
+</body>
+</html>
