@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站更新日志</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 0;
+        }
+        h1 {
+            color: #4A90E2;
+            text-align: center;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInUp 1s forwards;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #4A90E2;
+            padding-bottom: 5px;
+            margin-top: 30px;
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeInUp 1s forwards;
+            animation-delay: 0.5s; /* 每个 h2 的延迟时间 */
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 10px 0 20px 0;
+            padding: 15px;
+            opacity: 0;
+            transform: scale(0.95);
+            animation: scaleUp 0.5s forwards;
+            animation-delay: 1s; /* ul 的延迟时间 */
+        }
+        li {
+            margin: 10px 0;
+        }
+        strong {
+            color: #4A90E2;
+        }
+
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes scaleUp {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h1>更新日志</h1>
+
+<h2>版本 1.1.0 (2024年10月12日)</h2>
+<ul>
+    <li><strong>新增功能</strong>
+        <ul>
+            <li>1.增加了网站更新日志页面。</li>
+            <li>2.改进了页面的外观和交互。</li>
+        </ul>
+    </li>
+</ul>
+
+<h2>版本 1.0.0 (2024年10月7日)</h2>
+<ul>
+    <li><strong>初始发布</strong>
+        <ul>
+            <li>1.发布了网站的基础版本，包括主页、关于我、作品集，联系我们等页面。</li>
+            <li>2.提供了一些工具，如在线奖状生成器。</li>
+        </ul>
+    </li>
+</ul>
+
+</body>
+</html>

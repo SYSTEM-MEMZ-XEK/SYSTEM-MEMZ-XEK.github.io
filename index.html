@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,6 +62,14 @@
             margin: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            opacity: 0; /* 初始隐藏 */
+            transform: translateY(20px); /* 初始向下偏移 */
+            transition: opacity 0.6s ease, transform 0.6s ease; /* 动画效果 */
+        }
+
+        section.visible {
+            opacity: 1; /* 可见度 */
+            transform: translateY(0); /* 恢复位置 */
         }
 
         .portfolioContent {
@@ -124,6 +131,14 @@
                 text-align: center;
             }
         }
+
+        /* 打字效果 */
+        #typingEffect {
+            border-right: 2px solid black; /* 光标 effect */
+            display: inline-block;
+            font-size: 2em; 
+            overflow: hidden; /* 隐藏多余文本 */
+        }
     </style>
     <script>
         // 平滑滚动到指定区域
@@ -156,19 +171,42 @@
         function backToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // 添加淡入效果
+        function fadeInSections() {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.add('visible');
+            });
+        }
+
+        // 初始化打字效果
+        const text = "欢迎来到我的个人网站";
+        let index = 0;
+
+        function type() {
+            if (index < text.length) {
+                document.getElementById("typingEffect").innerHTML += text.charAt(index);
+                index++;
+                setTimeout(type, 200); // 每隔200毫秒打一个字
+            }
+        }
+
+        window.onload = function() {
+            fadeInSections(); // 页面加载完成后淡入各个部分
+            type(); // 开始打字效果
+        };
     </script>
 </head>
-
 <body>
     <!-- 导航栏 -->
-   
     <nav id="mainNav">
         <ul>
             <li><a href="#home" class="navLink" onclick="scrollToSection('home')">首页</a></li>
-            <li><a href="#about" class="navLink" onclick="scrollToSection('about')">关于我</a></li>
             <li><a href="#portfolio" class="navLink" onclick="scrollToSection('portfolio')">作品集</a></li>
-            <li><a href="#tools" class="navLink" onclick="scrollToSection('tools')">工具</a></li> <!-- 添加音乐菜单 -->
+            <li><a href="#tools" class="navLink" onclick="scrollToSection('tools')">工具</a></li>
             <li><a href="#contact" class="navLink" onclick="scrollToSection('contact')">联系方式</a></li>
+            <li><a href="UpdateLog.html" class="">网站更新日志</a></li>
             <div id="clock" style="text-align: center; font-size: 20px; color: rgb(121, 114, 114); margin-top: 1px;">00:00:00</div>
         </ul>
     </nav>
@@ -176,10 +214,10 @@
     <!-- 首页部分 -->
     <section id="home">
         <div class="homeContent">
-            <h1>欢迎来到我的个人网站</h1>
+            <h1 id="typingEffect"></h1>
             <p>在这里你可以了解更多关于我、我的技能以及我的工作内容。</p>
             <img src="images/profile.jpg" alt="我的头像" class="profilePic">
-
+            
             <!-- 关于我部分内容 -->
             <h2>关于我</h2>
             <p>我的名字是SYSTEM-MEMZ-XEK,我是一位高中生，目前就读于炳辉中学。我热爱编程与计算机，喜欢研究新技术，学习新知识。我希望通过我的技能和经验为更多的人提供帮助。</p>
@@ -220,12 +258,14 @@
     <section id="tools">
         <h2>工具</h2>
         <div class="contactContent" style="display: flex; flex-direction: column; align-items: center;">
-        <p>这里是我的工具，你可以点击按钮来使用。</p>
-        <button class="button" onclick="window.location.href='../Tools/Photoshop/index.html'">在线Photoshop编辑器</button>
-        <button class="button" onclick="window.location.href='Tools/index.html'">在线奖状生成器</button>
-        <button class="button" onclick="window.location.href='Tools/404/index.html'">在线XX工具</button>
+            <p>这里是我的工具，你可以点击按钮来使用。</p>
+            <button class="button" onclick="window.location.href='Tools/photoshop/index.html'">Photoshop编辑器</button>
+            <button class="button" onclick="window.location.href='Tools/index.html'">在线奖状生成器</button>
+            <button class="button" onclick="window.location.href='Tools/Calculator.html'">在线计算器</button>
+        </div>
     </section>
-<!-- 联系方式部分 -->
+
+    <!-- 联系方式部分 -->
     <section id="contact">
         <h2>联系方式</h2>
         <div class="contactContent" style="display: flex; flex-direction: column; align-items: center;">
@@ -235,7 +275,7 @@
                     <a href="mailto:XEK20090428@163.com" class="button">发送邮件：XEK20090428@163.com</a>
                 </li>
                 <li style="margin-right: 20px;">
-                    <button class="button" onclick="window.location.href='https://wpa.qq.com/msgrd?v=3&uin=1635075096&site=qq&menu=yes'">QQ: 1635075096</button>
+                    <button class="button" onclick="window.location.href=''">QQ: 1635075096</button>
                 </li>
                 <li>
                     <a href="https://space.bilibili.com/3493115711196019" target="_blank" class="button">访问哔哩哔哩主页</a>
@@ -260,5 +300,4 @@
         updateClock(); // 初始调用以立即显示时间
     </script>
 </body>
-
 </html>
