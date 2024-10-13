@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数绘图工具</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.4.4/math.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #4bc0c0;
+        }
+        input[type="text"], 
+        input[type="color"], 
+        input[type="number"] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #4bc0c0;
+            border-radius: 5px;
+            width: 300px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4bc0c0;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #36a7a7;
+        }
+        .button-group {
+            margin: 20px 0;
+        }
+        #canvas {
+            max-width: 800px;
+            height: 400px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+        }
+        label {
+            font-size: 16px;
+            margin-right: 10px;
+            color: #555;
+        }
+        .function-buttons {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>函数绘图工具</h1>
+<input type="text" id="functionInput" placeholder="输入函数 (例如: sin(x) 或 x^2)" />
+<div class="function-buttons">
+    <!-- 常用函数按钮 -->
+    <h3>常用函数</h3>
+    <button onclick="insertFunction('sin(x)')">sin(x)</button>
+    <button onclick="insertFunction('cos(x)')">cos(x)</button>
+    <button onclick="insertFunction('tan(x)')">tan(x)</button>
+    <button onclick="insertFunction('sqrt(x)')">√x</button>
+    <button onclick="insertFunction('abs(x)')">|x|</button>
+    <button onclick="insertFunction('x^2')">x²</button>
+    <button onclick="insertFunction('x^3')">x³</button>
+    <button onclick="insertFunction('e^x')">e^x</button>
+    <button onclick="insertFunction('log(x)')">log(x)</button>
+    <button onclick="insertFunction('ln(x)')">ln(x)</button>
+    <button onclick="insertFunction('1/x')">1/x</button>
+</div>
+<div class="button-group">
+    <button onclick="drawFunction()">绘制函数</button>
+    <button onclick="clearCanvas()">清除图形</button>
+    <button onclick="saveCanvas()">保存图形</button>
+</div>
+<div>
+    <label for="lineColor">线条颜色:</label>
+    <input type="color" id="lineColor" value="#4bc0c0">
+    <label for="lineWidth">线条宽度:</label>
+    <input type="number" id="lineWidth" value="1" min="1" max="10">
+</div>
+<canvas id="canvas" width="800" height="400"></canvas>
+
+<script>
+    let chart;
+
+    function insertFunction(funcStr) {
+        document.getElementById('functionInput').value = funcStr; // 将函数插入到输入框
+    }
+
+    function drawFunction() {
+        const funcStr = document.getElementById('functionInput').value;
+        let func;
+
+        try {
+            func = math.compile(funcStr);
+        } catch (error) {
+            alert('无效的函数表达式，请检查输入！');
+            return;
+        }
+
+        const xValues = [];
+        const yValues = [];
+
+        for (let x = -10; x <= 10; x += 0.1) {
+            xValues.push(x);
+            try {
+                yValues.push(func.evaluate({x: x}));
+            } catch (error) {
+                alert('计算值时发生错误，请检查函数！');
+                return;
+            }
+        }
+
+        const ctx = document.getElementById('canvas').getContext('2d');
+
+        if (chart) {
+            chart.destroy(); // 如果图表已存在，先销毁它
+        }
+
+        const lineColor = document.getElementById('lineColor').value;
+        const lineWidth = document.getElementById('lineWidth').value;
+
+        chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: xValues,
+                datasets: [{
+                    label: funcStr,
+                    data: yValues,
+                    borderColor: lineColor,
+                    borderWidth: lineWidth,
+                    fill: false
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'x'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'f(x)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    function clearCanvas() {
+        const ctx = document.getElementById('canvas').getContext('2d');
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        if (chart) {
+            chart.destroy();
+        }
+    }
+
+    function saveCanvas() {
+        const link = document.createElement('a');
+        link.href = document.getElementById('canvas').toDataURL('image/png');
+        link.download = 'plot.png';
+        link.click();
+    }
+</script>
+
+</body>
+</html>
