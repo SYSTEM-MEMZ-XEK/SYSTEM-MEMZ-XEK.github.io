@@ -6,197 +6,207 @@
     <title>SYSTEM-MEMZ-XEK的个人网站</title>
     <link rel="icon" href="images/profile.jpg" type="image/x-icon"> <!-- 添加图标 -->
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        body {
-            background: url('images/background.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #333;
-            font-family: Arial, sans-serif;
-        }
+ <style>
+    /* 设置页面基本样式 */
+    body {
+        background: url('images/background.jpg') no-repeat center center fixed; /* 背景图片设置 */
+        background-size: cover; /* 背景图像覆盖整个页面 */
+        color: #333; /* 文字颜色 */
+        font-family: Arial, sans-serif; /* 字体 */
+    }
 
-        nav {
-            background-color: rgba(255, 255, 255, 0.9);
-            position: fixed;
-            width: 100%;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-        }
+    /* 导航样式 */
+    nav {
+        background-color: rgba(255, 255, 255, 0.9); /* 导航背景色 */
+        position: fixed; /* 固定位置 */
+        width: 100%; /* 宽度100% */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+        z-index: 1000; /* 层级 */
+    }
 
+    nav ul {
+        list-style: none; /* 去除默认列表样式 */
+        padding: 0; /* 去除内边距 */
+        display: flex; /* 使用flex布局 */
+        justify-content: center; /* 居中对齐 */
+        margin: 0; /* 去除外边距 */
+    }
+
+    nav ul li {
+        margin: 0 15px; /* 列表项间距 */
+    }
+
+    nav ul li a {
+        text-decoration: none; /* 去除链接下划线 */
+        color: #333; /* 链接颜色 */
+        padding: 15px 20px; /* 内边距 */
+        transition: background-color 0.3s; /* 背景色过渡效果 */
+    }
+
+    nav ul li a:hover {
+        background-color: rgba(0, 123, 255, 0.2); /* 悬停时背景颜色 */
+    }
+
+    /* 主页内容样式 */
+    .homeContent {
+        text-align: center; /* 内容居中 */
+        padding-top: 80px; /* 上边距，避免被导航条遮挡 */
+    }
+
+    .profilePic {
+        max-width: 100%; /* 最大宽度为100% */
+        height: auto; /* 高度自适应 */
+        margin-top: 20px; /* 上边距 */
+    }
+
+    /* 各个部分样式 */
+    section {
+        background: rgba(255, 255, 255, 0.8); /* 背景颜色 */
+        padding: 60px; /* 内边距 */
+        margin: 20px; /* 外边距 */
+        border-radius: 10px; /* 圆角 */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+        opacity: 0; /* 初始隐藏 */
+        transform: translateY(20px); /* 初始向下偏移 */
+        transition: opacity 0.6s ease, transform 0.6s ease; /* 动画效果 */
+    }
+
+    section.visible {
+        opacity: 1; /* 可见度 */
+        transform: translateY(0); /* 恢复位置 */
+    }
+
+    .portfolioContent {
+        margin: 20px; /* 外边距 */
+    }
+
+    .project {
+        margin-bottom: 20px; /* 项目间隔 */
+    }
+
+    /* 按钮样式 */
+    .button {
+        display: inline-block; /* 行内块显示 */
+        padding: 10px 20px; /* 内边距 */
+        margin: 10px 0; /* 外边距 */
+        font-size: 16px; /* 字体大小 */
+        color: white; /* 文字颜色 */
+        background-color: #007BFF; /* 背景颜色 */
+        border: none; /* 无边框 */
+        border-radius: 5px; /* 圆角按钮 */
+        text-decoration: none; /* 去除下划线 */
+        cursor: pointer; /* 鼠标指针 */
+        transition: background-color 0.3s; /* 背景色过渡效果 */
+    }
+
+    .button:hover {
+        background-color: #0056b3; /* 悬停时背景颜色 */
+    }
+
+    /* 返回顶部按钮样式 */
+    .backToTop {
+        position: fixed; /* 固定位置 */
+        bottom: 20px; /* 底部距离 */
+        right: 20px; /* 右侧距离 */
+        display: none; /* 初始隐藏 */
+        background-color: #007BFF; /* 背景颜色 */
+        border: none; /* 无边框 */
+        color: white; /* 文字颜色 */
+        padding: 10px 15px; /* 内边距 */
+        border-radius: 5px; /* 圆角 */
+        cursor: pointer; /* 鼠标指针 */
+        transition: background-color 0.3s; /* 背景色过渡效果 */
+    }
+
+    .backToTop:hover {
+        background-color: #0056b3; /* 悬停时背景颜色 */
+    }
+
+    /* 关于内容样式 */
+    .aboutContent {
+        display: none; /* 初始隐藏 */
+        margin-top: 20px; /* 上边距 */
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
         nav ul {
-            list-style: none;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            margin: 0;
-        }
-
-        nav ul li {
-            margin: 0 15px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: #333;
-            padding: 15px 20px;
-            transition: background-color 0.3s;
-        }
-
-        nav ul li a:hover {
-            background-color: rgba(0, 123, 255, 0.2);
-        }
-
-        .homeContent {
-            text-align: center;
-            padding-top: 80px; /* 为了不被固定的导航条遮挡 */
-        }
-
-        .profilePic {
-            max-width: 100%;
-            height: auto;
-            margin-top: 20px;
-        }
-
-        section {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 60px;
-            margin: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            opacity: 0; /* 初始隐藏 */
-            transform: translateY(20px); /* 初始向下偏移 */
-            transition: opacity 0.6s ease, transform 0.6s ease; /* 动画效果 */
-        }
-
-        section.visible {
-            opacity: 1; /* 可见度 */
-            transform: translateY(0); /* 恢复位置 */
-        }
-
-        .portfolioContent {
-            margin: 20px;
+            flex-direction: column; /* 列表垂直排列 */
         }
 
         .project {
-            margin-bottom: 20px;
+            text-align: center; /* 项目内容居中 */
         }
+    }
 
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 10px 0;
-            font-size: 16px;
-            color: white;
-            background-color: #007BFF;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
+    /* 打字效果样式 */
+    #typingEffect {
+        border-right: 2px solid black; /* 光标效果 */
+        display: inline-block; /* 行内块显示 */
+        font-size: 2em; /* 字体大小 */
+        overflow: hidden; /* 隐藏多余文本 */
+    }
+</style>
+<script>
+    // 平滑滚动到指定区域
+    function scrollToSection(id) {
+        const element = document.getElementById(id);
+        element.scrollIntoView({ behavior: 'smooth' }); // 平滑滚动
+    }
+
+    // 切换作品集内容显示
+    function togglePortfolio() {
+        const portfolioContent = document.getElementById('portfolioContent');
+        // 切换显示与隐藏
+        if (portfolioContent.style.display === 'none' || portfolioContent.style.display === '') {
+            portfolioContent.style.display = 'block'; // 显示作品集
+        } else {
+            portfolioContent.style.display = 'none'; // 隐藏作品集
         }
+    }
 
-        .button:hover {
-            background-color: #0056b3;
+    // 显示返回顶部按钮
+    window.onscroll = function () {
+        const backToTopButton = document.getElementById('backToTop');
+        // 当滚动超过100像素时显示按钮
+        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+            backToTopButton.style.display = "block";
+        } else {
+            backToTopButton.style.display = "none";
         }
+    };
 
-        .backToTop {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: none; /* 初始隐藏 */
-            background-color: #007BFF;
-            border: none;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+    // 返回顶部功能
+    function backToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' }); // 平滑滚动到顶部
+    }
+
+    // 添加淡入效果
+    function fadeInSections() {
+        const sections = document.querySelectorAll('section'); // 选择所有section元素
+        sections.forEach(section => {
+            section.classList.add('visible'); // 添加可见类
+        });
+    }
+
+    // 初始化打字效果
+    const typingText = "欢迎来到我的个人网站"; // 打字内容
+    let typingIndex = 0; // 当前打字索引
+
+    function typeWriterEffect() {
+        if (typingIndex < typingText.length) {
+            document.getElementById("typingEffect").innerHTML += typingText.charAt(typingIndex); // 打字
+            typingIndex++; // 索引增加
+            setTimeout(typeWriterEffect, 200); // 每隔200毫秒打一个字
         }
+    }
 
-        .backToTop:hover {
-            background-color: #0056b3;
-        }
+    window.onload = function() {
+        fadeInSections(); // 页面加载完成后淡入各个部分
+        typeWriterEffect(); // 开始打字效果
+    };
+</script>
 
-        .aboutContent {
-            display: none;
-            margin-top: 20px;
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            nav ul {
-                flex-direction: column;
-            }
-
-            .project {
-                text-align: center;
-            }
-        }
-
-        /* 打字效果 */
-        #typingEffect {
-            border-right: 2px solid black; /* 光标 effect */
-            display: inline-block;
-            font-size: 2em; 
-            overflow: hidden; /* 隐藏多余文本 */
-        }
-    </style>
-    <script>
-        // 平滑滚动到指定区域
-        function scrollToSection(id) {
-            const element = document.getElementById(id);
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // 切换作品集内容显示
-        function togglePortfolio() {
-            const portfolioContent = document.getElementById('portfolioContent');
-            if (portfolioContent.style.display === 'none' || portfolioContent.style.display === '') {
-                portfolioContent.style.display = 'block';
-            } else {
-                portfolioContent.style.display = 'none';
-            }
-        }
-
-        // 显示返回顶部按钮
-        window.onscroll = function () {
-            const backToTopButton = document.getElementById('backToTop');
-            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                backToTopButton.style.display = "block";
-            } else {
-                backToTopButton.style.display = "none";
-            }
-        };
-
-        // 返回顶部功能
-        function backToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // 添加淡入效果
-        function fadeInSections() {
-            const sections = document.querySelectorAll('section');
-            sections.forEach(section => {
-                section.classList.add('visible');
-            });
-        }
-
-        // 初始化打字效果
-        const text = "欢迎来到我的个人网站";
-        let index = 0;
-
-        function type() {
-            if (index < text.length) {
-                document.getElementById("typingEffect").innerHTML += text.charAt(index);
-                index++;
-                setTimeout(type, 200); // 每隔200毫秒打一个字
-            }
-        }
-
-        window.onload = function() {
-            fadeInSections(); // 页面加载完成后淡入各个部分
-            type(); // 开始打字效果
-        };
-    </script>
 </head>
 <body>
     <!-- 导航栏 -->
@@ -207,6 +217,7 @@
             <li><a href="#tools" class="navLink" onclick="scrollToSection('tools')">工具</a></li>
             <li><a href="#contact" class="navLink" onclick="scrollToSection('contact')">联系方式</a></li>
             <li><a href="UpdateLog.html" class="">网站更新日志</a></li>
+            <li><a href="ToolsSharedownload.html" class="">工具分享</a></li>
             <div id="clock" style="text-align: center; font-size: 20px; color: rgb(121, 114, 114); margin-top: 1px;">00:00:00</div>
         </ul>
     </nav>
@@ -256,15 +267,22 @@
 
     <!-- 工具部分 -->
 <section id="tools">
-    <h2>工具</h2>
-    <div class="contactContent" style="display: flex; flex-direction: row; align-items: center; gap: 10px;">
+    <h2 style="text-align: center;">工具</h2>
+    <div class="contactContent" style="display: flex; flex-direction: column; align-items: center;">
         <p>这里是我的工具，你可以点击按钮来使用。</p>
-        <button class="button" onclick="window.location.href='Tools/photoshop/index.html'">Photoshop编辑器</button>
-        <button class="button" onclick="window.location.href='Tools/index.html'">在线奖状生成器</button>
-        <button class="button" onclick="window.location.href='Tools/Calculator.html'">在线计算器</button>
-        <button class="button" onclick="window.location.href='Tools/Function.html'">函数绘制工具</button>
+        <div style="display: flex; flex-direction: row; align-items: center; margin-top: 20px;">
+            <button class="button" style="margin: 0 10px;" onclick="window.location.href='Tools/photoshop/index.html'">Photoshop编辑器</button>
+            <button class="button" style="margin: 0 10px;" onclick="window.location.href='Tools/index.html'">在线奖状生成器</button>
+            <button class="button" style="margin: 0 10px;" onclick="window.location.href='https://www.remove.bg/zh'">在线图片处理工具</button>
+            <button class="button" style="margin: 0 10px;" onclick="window.location.href='https://www.geogebra.org/graphing?lang=zh_CN'">函数绘制工具</button>
+            <button class="button" style="margin: 0 10px;" onclick="window.location.href='https://www.desmos.com/scientific?lang=zh-CN'">数学计算器</button>
+            <button class="button" style="margin: 0 10px;" onclick="window.location.href='ToolsSharedownload.html'">工具分享</button>
+        </div>
     </div>
 </section>
+
+
+
     <!-- 联系方式部分 -->
     <section id="contact">
         <h2>联系方式</h2>
