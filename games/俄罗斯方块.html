@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>俄罗斯方块</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column; /* 更改布局方向为纵向 */
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e8f0fe;
+            font-family: 'Arial', sans-serif;
+        }
+        #game {
+            width: 400px;
+            height: 400px;
+            background-color: #fff;
+            border: 5px solid #3b7dd8;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 5px;
+            background-color: #ffffff;
+        }
+        h1 {
+            text-align: center;
+            color: #3b7dd8;
+            margin-bottom: 10px;  /* 微调间隔 */
+        }
+        #score {
+            font-size: 20px;
+            color: #3b7dd8;
+            margin-bottom: 20px;  /* 调整分数显示与游戏区域的间距 */
+        }
+    </style>
+</head>
+<body>
+    <h1>俄罗斯方块</h1>
+    <div id="score">分数: 0</div> <!-- 分数显示元素 -->
+    <div id="game"></div>
+    <script>
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const gameArea = document.getElementById('game');
+        gameArea.appendChild(canvas);
+        canvas.width = 400;
+        canvas.height = 400;
+
+        const blockSize = 20;
+        const rows = canvas.height / blockSize;
+        const columns = canvas.width / blockSize;
+
+        let grid = Array.from({ length: rows }, () => Array(columns).fill(0));
+
+        // 定义不同形状的方块
+        const blockShapes = [
+            [[1, 1, 1], [0, 1, 0]],  // T形
+            [[1, 1, 1, 1]],          // I形
+            [[1, 1], [1, 1]],        // O形
+            [[0, 1, 1], [1, 1, 0]],  // S形
+            [[1, 1, 0], [0, 1, 1]],  // Z形
+            [[1, 1, 1], [1, 0, 0]],  // L形
+            [[1, 1, 1], [0, 0, 1]]   // J形
+        ];
+
+        let currentBlock = spawnNewBlock();
+        let score = 0; // 分数计数
+        let dropInterval = 1000; // 初始下落间隔时间
+        let dropTimer; // 定时器
+
+        // 生成新的方块
+        function spawnNewBlock() {
+            const randomIndex = Math.floor(Math.random() * blockShapes.length);
+            return {
+                shape: blockShapes[randomIndex],
+                position: { x: 3, y: 0 }
+            };
+        }
+
+        function drawGrid() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < columns; c++) {
+                    if (grid[r][c] !== 0) {
+                        ctx.fillStyle = '#ff7676';
+                        ctx.fillRect(c * blockSize, r * blockSize, blockSize, blockSize);
+                        ctx.strokeStyle = '#ffffff';
+                        ctx.strokeRect(c * blockSize, r * blockSize, blockSize, blockSize);
+                    }
+                }
+            }
+            drawBlock();
+        }
+
+        function drawBlock() {
+            ctx.fillStyle = '#3b7dd8';
+            currentBlock.shape.forEach((row, r) => {
+                row.forEach((value, c) => {
+                    if (value) {
+                        ctx.fillRect((currentBlock.position.x + c) * blockSize, 
+                                     (currentBlock.position.y + r) * blockSize, 
+                                     blockSize, blockSize);
+                        ctx.strokeStyle = '#ffffff';
+                        ctx.strokeRect((currentBlock.position.x + c) * blockSize, 
+                                       (currentBlock.position.y + r) * blockSize, 
+                                       blockSize, blockSize);
+                    }
+                });
+            });
+        }
+
+        function rotateBlock() {
+            const newShape = currentBlock.shape[0].map((_, index) => 
+                currentBlock.shape.map(row => row[index]).reverse()
+            );
+
+            if (!isColliding(0, 0, newShape)) {
+                currentBlock.shape = newShape; // 更新形状为旋转后的形状
+            }
+        }
+
+        function isColliding(offsetX, offsetY, shape = currentBlock.shape) {
+            for (let r = 0; r < shape.length; r++) {
+                for (let c = 0; c < shape[r].length; c++) {
+                    if (shape[r][c]) {
+                        let newX = currentBlock.position.x + c + offsetX;
+                        let newY = currentBlock.position.y + r + offsetY;
+                        if (newX < 0 || newX >= columns || newY >= rows || (newY >= 0 && grid[newY][newX] !== 0)) {
+                            return true; // 碰撞
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        function mergeBlock() {
+            currentBlock.shape.forEach((row, r) => {
+                row.forEach((value, c) => {
+                    if (value) {
+                        grid[currentBlock.position.y + r][currentBlock.position.x + c] = 1; // 固定方块
+                    }
+                });
+            });
+            removeFullLines();
+        }
+
+        function removeFullLines() {
+            let linesRemoved = 0; // 计数移除的行数
+            for (let r = rows - 1; r >= 0; r--) {
+                if (grid[r].every(cell => cell !== 0)) {
+                    grid.splice(r, 1); // 移除满行
+                    grid.unshift(Array(columns).fill(0)); // 在顶部添加新行
+                    linesRemoved++;
+                }
+            }
+            // 根据移除的行数增加分数和加速
+            if (linesRemoved > 0) {
+                score += linesRemoved; // 更新分数
+                updateScoreDisplay(); // 更新分数显示
+                increaseDifficulty(); // 难度提升
+            }
+        }
+
+        function updateScoreDisplay() {
+            const scoreElement = document.getElementById('score');
+            scoreElement.innerText = `分数: ${score}`; // 更新显示的分数
+        }
+
+        function increaseDifficulty() {
+            if (score % 10 === 0) { // 每10分加速
+                dropInterval = Math.max(100, dropInterval - 100); // 最小间隔为100ms
+                clearInterval(dropTimer);
+                dropTimer = setInterval(update, dropInterval);
+            }
+        }
+
+        function update() {
+            if (!isColliding(0, 1)) {
+                currentBlock.position.y += 1; // 方块下落
+            } else {
+                mergeBlock(); // 固定方块
+                currentBlock = spawnNewBlock(); // 生成新方块
+                if (isColliding(0, 0)) {
+                    alert('游戏结束'); // 游戏结束
+                    grid = Array.from({ length: rows }, () => Array(columns).fill(0)); // 重置网格
+                    score = 0; // 重置得分
+                    dropInterval = 1000; // 重置下落间隔
+                    clearInterval(dropTimer); // 清除定时器
+                    updateScoreDisplay(); // 更新分数显示
+                }
+            }
+            drawGrid();
+        }
+
+        dropTimer = setInterval(update, dropInterval); // 设置定时器
+
+        // 键盘事件监听
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowLeft' && !isColliding(-1, 0)) {
+                currentBlock.position.x -= 1; // 向左移动
+            }
+            if (event.key === 'ArrowRight' && !isColliding(1, 0)) {
+                currentBlock.position.x += 1; // 向右移动
+            }
+            if (event.key === 'ArrowDown' && !isColliding(0, 1)) {
+                currentBlock.position.y += 1; // 下移
+            }
+            if (event.key === 'ArrowUp') {
+                rotateBlock(); // 旋转方块
+            }
+            drawGrid();
+        });
+
+    </script>
+</body>
+</html>
