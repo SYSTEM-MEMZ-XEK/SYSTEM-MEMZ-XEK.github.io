@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贪吃蛇游戏</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #74b9ff, #a29bfe);
+            font-family: 'Microsoft Yahei', Arial, sans-serif;
+            color: #2c3e50;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3em;
+            margin: 0;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        canvas {
+            border: 5px solid #2980b9;
+            background-color: #fff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            margin: 20px;
+        }
+        #score {
+            font-size: 1.5em;
+            margin: 10px 0;
+        }
+        #startBtn, #restartBtn, .difficultyBtn {
+            padding: 10px 20px;
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s;
+            margin: 5px;
+        }
+        #startBtn:hover, #restartBtn:hover, .difficultyBtn:hover {
+            background-color: #3498db;
+        }
+        #gameOver {
+            display: none;
+            margin-top: 20px;
+            font-size: 2em;
+            color: red;
+        }
+        #difficultySelect {
+            display: none;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>贪吃蛇</h1>
+    <div id="difficultySelect">
+        <p>选择难度:</p>
+        <button class="difficultyBtn" data-speed="200">简单</button>
+        <button class="difficultyBtn" data-speed="150">中等</button>
+        <button class="difficultyBtn" data-speed="100">困难</button>
+    </div>
+    <div id="score">得分: 0</div>
+    <button id="startBtn">开始游戏</button>
+    <div id="gameOver">游戏结束！得分: <span id="finalScore"></span></div>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <button id="restartBtn" style="display: none;">重新开始</button>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const scoreDisplay = document.getElementById("score");
+        const startBtn = document.getElementById("startBtn");
+        const gameOverDisplay = document.getElementById("gameOver");
+        const finalScoreDisplay = document.getElementById("finalScore");
+        const restartBtn = document.getElementById("restartBtn");
+        const difficultySelect = document.getElementById("difficultySelect");
+
+        let box = 20;
+        let snake;
+        let direction;
+        let food;
+        let score;
+        let game;
+        let speed = 100; // 默认速度
+
+        // 显示难度选择界面
+        startBtn.addEventListener("click", () => {
+            difficultySelect.style.display = "block";
+            startBtn.style.display = "none"; // 隐藏开始按钮
+        });
+
+        // 难度按钮点击事件
+        const difficultyButtons = document.querySelectorAll('.difficultyBtn');
+        difficultyButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                speed = parseInt(event.target.dataset.speed); // 设置游戏速度
+                difficultySelect.style.display = "none"; // 隐藏难度选择界面
+                startGame(); // 开始游戏
+            });
+        });
+
+        function startGame() {
+            snake = [{x: 9 * box, y: 9 * box}];
+            direction = "RIGHT";
+            food = generateFood();
+            score = 0;
+            scoreDisplay.innerHTML = `得分: ${score}`;
+            gameOverDisplay.style.display = "none";
+            restartBtn.style.display = "none";
+            clearInterval(game); // 清除之前的间隔
+            game = setInterval(update, speed);
+        }
+
+        function generateFood() {
+            return {
+                x: Math.floor(Math.random() * 20) * box,
+                y: Math.floor(Math.random() * 20) * box
+            };
+        }
+
+        function drawSnake() {
+            for (let i = 0; i < snake.length; i++) {
+                ctx.fillStyle = (i === 0) ? "green" : "lightgreen";
+                ctx.fillRect(snake[i].x, snake[i].y, box, box);
+                ctx.strokeStyle = "darkgreen";
+                ctx.strokeRect(snake[i].x, snake[i].y, box, box);
+            }
+        }
+
+        function drawFood() {
+            ctx.fillStyle = "red";
+            ctx.fillRect(food.x, food.y, box, box);
+        }
+
+        function update() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawFood();
+            drawSnake();
+
+            let snakeX = snake[0].x;
+            let snakeY = snake[0].y;
+
+            if (direction === "LEFT") snakeX -= box;
+            if (direction === "UP") snakeY -= box;
+            if (direction === "RIGHT") snakeX += box;
+            if (direction === "DOWN") snakeY += box;
+
+            if (snakeX === food.x && snakeY === food.y) {
+                food = generateFood();
+                score += 10;
+                scoreDisplay.innerHTML = `得分: ${score}`;
+                if (speed > 50) speed -= 5; // 提升速度
+                clearInterval(game);
+                game = setInterval(update, speed); // 更新速度
+            } else {
+                snake.pop();
+            }
+
+            const newHead = {x: snakeX, y: snakeY};
+
+            if (snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) {
+                clearInterval(game);
+                gameOverDisplay.style.display = "block";
+                finalScoreDisplay.innerText = score;
+                restartBtn.style.display = "block"; // 显示重新开始按钮
+                return;
+            }
+
+            snake.unshift(newHead);
+        }
+
+        function collision(head, array) {
+            return array.some(segment => head.x === segment.x && head.y === segment.y);
+        }
+
+        document.addEventListener("keydown", directionControl);
+
+        function directionControl(event) {
+            if (event.key === "ArrowLeft" && direction !== "RIGHT") {
+                direction = "LEFT";
+            } else if (event.key === "ArrowUp" && direction !== "DOWN") {
+                direction = "UP";
+            } else if (event.key === "ArrowRight" && direction !== "LEFT") {
+                direction = "RIGHT";
+            } else if (event.key === "ArrowDown" && direction !== "UP") {
+                direction = "DOWN";
+            }
+        }
+
+        // 重新开始按钮点击事件
+        restartBtn.addEventListener("click", () => {
+            score = 0; // 重置分数
+            scoreDisplay.innerHTML = `得分: ${score}`; // 更新得分显示
+            startGame(); // 重新开始游戏
+        });
+    </script>
+</body>
+</html>

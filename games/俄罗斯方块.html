@@ -9,7 +9,7 @@
             margin: 0;
             padding: 0;
             display: flex;
-            flex-direction: column; /* 更改布局方向为纵向 */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -23,6 +23,7 @@
             border: 5px solid #3b7dd8;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
             position: relative;
+            display: none; /* 初始隐藏游戏区域 */
         }
         canvas {
             position: absolute;
@@ -34,18 +35,54 @@
         h1 {
             text-align: center;
             color: #3b7dd8;
-            margin-bottom: 10px;  /* 微调间隔 */
+            margin-bottom: 10px;
         }
         #score {
             font-size: 20px;
             color: #3b7dd8;
-            margin-bottom: 20px;  /* 调整分数显示与游戏区域的间距 */
+            margin-bottom: 20px;
+        }
+        #difficultySelect {
+            margin-bottom: 20px;
+        }
+        .difficultyBtn {
+            padding: 10px;
+            background-color: #3b7dd8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 0 5px;
+        }
+        .difficultyBtn:hover {
+            background-color: #3498db;
+        }
+        #startGameBtn {
+            padding: 10px;
+            background-color: #3b7dd8;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+            display: none; /* 初始隐藏开始游戏按钮 */
+        }
+        #startGameBtn:hover {
+            background-color: #3498db;
         }
     </style>
 </head>
 <body>
     <h1>俄罗斯方块</h1>
-    <div id="score">分数: 0</div> <!-- 分数显示元素 -->
+    <div id="difficultySelect">
+        <button class="difficultyBtn" data-speed="500">简单</button>
+        <button class="difficultyBtn" data-speed="250">中等</button>
+        <button class="difficultyBtn" data-speed="100">困难</button>
+    </div>
+    <button id="startGameBtn">开始游戏</button>
+    <div id="score">分数: 0</div>
     <div id="game"></div>
     <script>
         const canvas = document.createElement('canvas');
@@ -60,8 +97,6 @@
         const columns = canvas.width / blockSize;
 
         let grid = Array.from({ length: rows }, () => Array(columns).fill(0));
-
-        // 定义不同形状的方块
         const blockShapes = [
             [[1, 1, 1], [0, 1, 0]],  // T形
             [[1, 1, 1, 1]],          // I形
@@ -72,12 +107,11 @@
             [[1, 1, 1], [0, 0, 1]]   // J形
         ];
 
-        let currentBlock = spawnNewBlock();
-        let score = 0; // 分数计数
-        let dropInterval = 1000; // 初始下落间隔时间
+        let currentBlock;
+        let score = 0;
+        let dropInterval = 1000; // 下落间隔
         let dropTimer; // 定时器
 
-        // 生成新的方块
         function spawnNewBlock() {
             const randomIndex = Math.floor(Math.random() * blockShapes.length);
             return {
@@ -124,7 +158,7 @@
             );
 
             if (!isColliding(0, 0, newShape)) {
-                currentBlock.shape = newShape; // 更新形状为旋转后的形状
+                currentBlock.shape = newShape; // 更新形状
             }
         }
 
@@ -155,7 +189,7 @@
         }
 
         function removeFullLines() {
-            let linesRemoved = 0; // 计数移除的行数
+            let linesRemoved = 0;
             for (let r = rows - 1; r >= 0; r--) {
                 if (grid[r].every(cell => cell !== 0)) {
                     grid.splice(r, 1); // 移除满行
@@ -163,25 +197,15 @@
                     linesRemoved++;
                 }
             }
-            // 根据移除的行数增加分数和加速
             if (linesRemoved > 0) {
                 score += linesRemoved; // 更新分数
                 updateScoreDisplay(); // 更新分数显示
-                increaseDifficulty(); // 难度提升
             }
         }
 
         function updateScoreDisplay() {
             const scoreElement = document.getElementById('score');
-            scoreElement.innerText = `分数: ${score}`; // 更新显示的分数
-        }
-
-        function increaseDifficulty() {
-            if (score % 10 === 0) { // 每10分加速
-                dropInterval = Math.max(100, dropInterval - 100); // 最小间隔为100ms
-                clearInterval(dropTimer);
-                dropTimer = setInterval(update, dropInterval);
-            }
+            scoreElement.innerText = `分数: ${score}`; // 更新分数显示
         }
 
         function update() {
@@ -193,8 +217,7 @@
                 if (isColliding(0, 0)) {
                     alert('游戏结束'); // 游戏结束
                     grid = Array.from({ length: rows }, () => Array(columns).fill(0)); // 重置网格
-                    score = 0; // 重置得分
-                    dropInterval = 1000; // 重置下落间隔
+                    score = 0; // 重置分数
                     clearInterval(dropTimer); // 清除定时器
                     updateScoreDisplay(); // 更新分数显示
                 }
@@ -202,10 +225,19 @@
             drawGrid();
         }
 
-        dropTimer = setInterval(update, dropInterval); // 设置定时器
+        // 点击开始游戏按钮
+        document.getElementById('startGameBtn').addEventListener('click', () => {
+            score = 0; // 重置分数
+            grid = Array.from({ length: rows }, () => Array(columns).fill(0)); // 重置网格
+            updateScoreDisplay();
+            currentBlock = spawnNewBlock(); // 生成新方块
+            dropTimer = setInterval(update, dropInterval); // 设置定时器
+            document.getElementById('game').style.display = 'block'; // 显示游戏区域
+            document.getElementById('startGameBtn').style.display = 'none'; // 隐藏开始游戏按钮
+            document.addEventListener('keydown', handleKeyPress); // 添加键盘事件监听
+        });
 
-        // 键盘事件监听
-        document.addEventListener('keydown', (event) => {
+        function handleKeyPress(event) {
             if (event.key === 'ArrowLeft' && !isColliding(-1, 0)) {
                 currentBlock.position.x -= 1; // 向左移动
             }
@@ -219,8 +251,17 @@
                 rotateBlock(); // 旋转方块
             }
             drawGrid();
-        });
+        }
 
+        // 难度选择按钮事件
+        const difficultyButtons = document.querySelectorAll('.difficultyBtn');
+        difficultyButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                dropInterval = parseInt(event.target.dataset.speed); // 设置速度
+                clearInterval(dropTimer); // 清除之前的定时器
+                document.getElementById('startGameBtn').style.display = 'block'; // 显示开始游戏按钮
+            });
+        });
     </script>
 </body>
 </html>
