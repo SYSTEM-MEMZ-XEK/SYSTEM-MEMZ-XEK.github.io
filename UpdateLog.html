@@ -13,23 +13,19 @@
             margin: 20px;
             padding: 0;
         }
-        h1 {
+        h1, h2 {
             color: #4A90E2;
-            text-align: center;
             margin-bottom: 20px;
+            text-align: center;
             opacity: 0;
             transform: translateY(-20px);
             animation: fadeInUp 1s forwards;
         }
         h2 {
-            color: #333;
+            margin-top: 30px;
             border-bottom: 2px solid #4A90E2;
             padding-bottom: 5px;
-            margin-top: 30px;
-            opacity: 0;
-            transform: translateY(-20px);
-            animation: fadeInUp 1s forwards;
-            animation-delay: 0.5s; /* 每个 h2 的延迟时间 */
+            animation-delay: 0.5s; 
         }
         ul {
             list-style-type: none;
@@ -42,7 +38,7 @@
             opacity: 0;
             transform: scale(0.95);
             animation: scaleUp 0.5s forwards;
-            animation-delay: 1s; /* ul 的延迟时间 */
+            animation-delay: 1s; 
         }
         li {
             margin: 10px 0;
@@ -51,7 +47,6 @@
             color: #4A90E2;
         }
 
-        /* 动画效果 */
         @keyframes fadeInUp {
             to {
                 opacity: 1;
@@ -67,73 +62,89 @@
     </style>
 </head>
 <body>
-<h1>更新日志</h1>
-<h2>版本 1.4.1 (2024年11月23日)</h2>
-<ul>
-    <li><strong>新增功能</strong>
-        <ul>
-            <li>1.修改了作品集板块，调用哔哩哔哩外链播放器，可以直接在线观看我在B站的视频。</li>
-            <li>2.上线了“文档”页面，待上线的文档有：《如何在GitHub上创建个人网站》</li>
-        </ul>
-    </li>
-</ul>
-<h2>版本 1.4.0 (2024年11月3日)</h2>
-<ul>
-    <li><strong>新增功能</strong>
-        <ul>
-            <li>1.增加了游戏页面，已经上线的游戏有：俄罗斯方块，贪吃蛇，以及一些未上线的游戏，后续将陆续增加更多的游戏。</li>
-            <li>2.增加了俄罗斯方块的难度选择，可以选择简单、中等、困难；贪吃蛇也是可以选择简单、中等、困难。</li>
-        </ul>
-    </li>
-</ul> 
-    <h2>版本 1.3.1 (2024年10月31日)</h2>
-<ul>
-    <li><strong>新增功能</strong>
-        <ul>
-            <li>1.增加了游戏页面，已经上线的游戏有：俄罗斯方块，后续将陆续增加更多的游戏。</li>
-        </ul>
-    </li>
-</ul> 
-<h2>版本 1.3.0 (2024年10月19日)</h2>
-<ul>
-    <li><strong>新增功能</strong>
-        <ul>
-            <li>1.增加了工具分享页面，已经上线的工具有：Movie To GIF、NSudoLG、HEU_KMS_Activator_30.2.0、ResHacker这些工具，后续将陆续增加更多的工具。</li>
-            <li>2.首页部分“工具”板块增加了“工具分享”，并调整了布局。</li>
-            <li>3.“工具”板块更换了在线函数绘制工具，科学计算器的链接，并增加了在线图片处理工具。</li>
-        </ul>
-    </li>
-</ul>
-<h2>版本 1.2.0 (2024年10月13日)</h2>
-<ul>
-    <li><strong>新增功能</strong>
-        <ul>
-            <li>1.增加了函数绘制工具。</li>
-            <li>2.将工具栏目按钮横向排列。</li>
-        </ul>
-    </li>
-</ul>
+    <h1>更新日志</h1>
+    <h2>2024年11月28日</h2>
+    <ul>
+        <li><strong>新增功能</strong>
+            <ul>
+                <li>网页更新日志页面，不再以版本号为单位，而是以日期为单位。</li>
+                <li>简化部分页面的布局和交互，去除冗余的元素。</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h2>2024年11月23日</h2>
+    <ul>
+        <li><strong>新增功能</strong>
+            <ul>
+                <li>修改了作品集板块，调用哔哩哔哩外链播放器，可以直接在线观看我在B站的视频。</li>
+                <li>上线了“文档”页面，待上线的文档有：《如何在GitHub上创建个人网站》</li>
+            </ul>
+        </li>
+    </ul>
 
-<h2>版本 1.1.0 (2024年10月12日)</h2>
-<ul>
-    <li><strong>新增功能</strong>
-        <ul>
-            <li>1.增加了网站更新日志页面。</li>
-            <li>2.改进了页面的外观和交互。</li>
-            <li>3.修复了在线Photoshop无法访问的问题。</li>
-        </ul>
-    </li>
-</ul>
+    <h2>2024年11月3日</h2>
+    <ul>
+        <li><strong>新增功能</strong>
+            <ul>
+                <li>增加了游戏页面，已经上线的游戏有：俄罗斯方块、贪吃蛇，后续将陆续增加更多的游戏。</li>
+                <li>增加了俄罗斯方块和贪吃蛇的难度选择，提供简单、中等、困难选项。</li>
+            </ul>
+        </li>
+    </ul> 
 
-<h2>版本 1.0.0 (2024年10月7日)</h2>
-<ul>
-    <li><strong>初始发布</strong>
-        <ul>
-            <li>1.发布了网站的基础版本，包括主页、关于我、作品集，联系我们等页面。</li>
-            <li>2.提供了一些工具，如在线奖状生成器。</li>
-        </ul>
-    </li>
-</ul>
+    <h2>2024年10月31日</h2>
+    <ul>
+        <li><strong>新增功能</strong>
+            <ul>
+                <li>增加了游戏页面，已经上线的游戏有：俄罗斯方块，后续将持续增加更多的游戏。</li>
+            </ul>
+        </li>
+    </ul> 
 
+    <h2>2024年10月19日</h2>
+    <ul>
+        <li><strong>新增功能</strong>
+            <ul>
+                <li>增加了工具分享页面，已上线工具包括：Movie To GIF、NSudoLG、HEU_KMS_Activator_30.2.0、ResHacker，后续将陆续增加更多工具。</li>
+                <li>首页的“工具”板块增加了“工具分享”，并调整了布局。</li>
+                <li>更换了在线函数绘制工具和科学计算器的链接，增加了在线图片处理工具。</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>2024年10月13日</h2>
+    <ul>
+        <li><strong>新增功能</strong>
+            <ul>
+                <li>增加了函数绘制工具。</li>
+                <li>将工具栏目按钮横向排列。</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>2024年10月12日</h2>
+    <ul>
+        <li><strong>新增功能</strong>
+            <ul>
+                <li>新增网站更新日志页面。</li>
+                <li>改进页面的外观和交互。</li>
+                <li>修复在线Photoshop无法访问的问题。</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>2024年10月7日</h2>
+    <ul>
+        <li><strong>网站上线</strong>
+            <ul>
+                <li>发布网站基础版本，包括主页、关于我、作品集、联系我们等页面。</li>
+                <li>提供了一些工具，如在线奖状生成器。</li>
+            </ul>
+        </li>
+    </ul>
+<footer style="text-align: center;">
+    <p>© 2024 SYSTEM-MEMZ-XEK</p>
+</footer>
 </body>
 </html>

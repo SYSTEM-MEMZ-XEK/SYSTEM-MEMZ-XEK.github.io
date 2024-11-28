@@ -6,75 +6,68 @@
     <title>文档</title>
     <style>
         body {
-            font-family: 'Microsoft Yahei', Arial, sans-serif;
-            background: linear-gradient(to right, #74ebd5, #9face6);
-            color: #333;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
             margin: 0;
-            padding: 0;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
+            padding: 20px;
+            animation: fadeIn 0.5s ease-in-out; /* 加载动画 */
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         h1 {
-            margin-bottom: 60px; /* 增加标题与列表之间的间距 */
-            color: #2c3e50;
-            font-size: 3.5em; /* 增加标题的字体大小 */
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            font-size: 2em;
+            color: #4A90E2;
+            text-align: center;
+            margin-top: 0;
         }
+
         ul {
             list-style-type: none;
             padding: 0;
             display: flex;
-            flex-direction: column; /* 竖直排列 */
-            align-items: center; /* 水平居中 */
+            flex-direction: column;
+            align-items: center;
         }
-        li {
-            margin: 30px 0; /* 增加垂直间距 */
-            width: 90%; /* 增加宽度设置为90% */
-            max-width: 700px; /* 最大宽度 */
-            height: 700px; /* 固定高度 */
-        }
+
         .game-item {
-            height: 100%; /* 高度填满父级 */
-            display: flex; /* 使用flexbox使内容居中 */
-            flex-direction: column; /* 垂直排列 */
-            align-items: center; /* 水平居中 */
-            justify-content: center; /* 垂直居中 */
-            border: 2px solid #2980b9;
-            border-radius: 10px;
-            background-color: white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-            padding: 30px; /* 增加内边距 */
+            margin: 20px 0;
+            width: 100%;
+            max-width: 600px; /* 限制最大宽度 */
+            text-align: center;
         }
-        .game-item:hover {
-            transform: scale(1.05);
+
+        .game-item img {
+            width: 100%;
+            border-radius: 5px;
+            max-width: 100%; /* 图片最大宽度 */
         }
-        a {
-            display: flex;
-            flex-direction: column; /* 垂直排列内容 */
-            align-items: center; /* 水平居中 */
+
+        .game-item a {
             text-decoration: none;
-            color: #2980b9; /* 链接颜色 */
+            color: #333;
+            display: block; /* 使链接块元素化，方便点击 */
+            transition: color 0.3s;
         }
-        img {
-            width: 80%; /* 调整为相对宽度 */
-            height: auto; /* 自动调整高度，保持比例 */
-            max-height: 400px; /* 修改最大高度 */
-            border-radius: 5px; /* 图片圆角 */
-            margin-bottom: 15px; /* 图片与文本的间距 */
+
+        .game-item a:hover {
+            color: #4A90E2; /* 悬停时颜色变化 */
         }
-        .unavailable {
-            color: #f39c12; /* 使用橙色表示未上线 */
-            font-weight: bold; /* 加粗 */
-        }
+
         footer {
+            text-align: center;
             margin-top: 30px;
-            font-size: 16px;
-            color: #666;
+            font-size: 0.9em;
+            color: #777;
         }
     </style>
 </head>
@@ -94,8 +87,8 @@
             </a>
         </li>
     </ul>
-    <footer>
-        <p>版权 © 2023</p>
+    <footer style="text-align: center;">
+        <p>© 2024 SYSTEM-MEMZ-XEK</p>
     </footer>
 </body>
 </html>

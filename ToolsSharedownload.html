@@ -3,100 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>工具软件分享</title>
-    
-    <!-- 引入单独的导航栏样式 -->
-    <link rel="stylesheet" href="css/navbar.css">
-    
+    <title>视频中出现的一些软件下载</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f4f8;
-            color: #333;
-            line-height: 1.6;
-            margin: 20px;
-            padding: 0;
-        }
-
-        h1, h2 {
-            color: #3A8EBA;
-            opacity: 0;
-            transform: translateY(-20px);
-            animation: fadeInUp 1s forwards;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        h2 {
-            border-bottom: 2px solid #3A8EBA;
-            padding-bottom: 5px;
-            margin-top: 30px;
-            animation-delay: 0.5s;
-        }
-
-        ul {
-            list-style-type: none;
+            background-color: #f5f5f5;
+            margin: 0;
             padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
-            margin: 10px 0 20px 0;
-            opacity: 0;
-            transform: scale(0.95);
-            animation: scaleUp 0.5s forwards;
-            animation-delay: 1s;
+            animation: fadeIn 0.5s ease-in-out; /* 应用动画 */
         }
 
-        li {
-            margin: 15px 0;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        strong {
-            color: #3A8EBA;
-        }
-
-        button {
-            background-color: #4A90E2;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s, transform 0.3s;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #357ABD;
-            transform: scale(1.05);
-        }
-
-        @keyframes fadeInUp {
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        @keyframes scaleUp {
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+        h1 {
+            font-size: 2em;
+            color: #4A90E2;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        div {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        strong {
+            font-size: 1.2em;
+            color: #4A90E2;
+        }
+
+        img {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4A90E2;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #357ABD;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #777;
         }
     </style>
 </head>
+<body>
     <h1>工具软件下载</h1>
     <h2>分享软件</h2>
-    <div style="padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1); text-align: center;">
+    <div>
         <ul>
             <li>
                 <strong>Movie To GIF</strong>
@@ -136,5 +132,8 @@
             </li>
         </ul>
     </div>
+    <footer>
+        <p>© 2024 SYSTEM-MEMZ-XEK</p>
+    </footer>
 </body>
 </html>
